@@ -41,13 +41,12 @@ static const char *brightnessinc[] = {"light", "-A", "5%", NULL};
 static const char *brightnessdec[] = {"light", "-U", "5%", NULL};
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
+	 //xprop(1):
+        //WM_CLASS(STRING) = instance, class
+        //WM_NAME(STRING) = title
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "Firefox",  NULL,       NULL,       2,       0,           -1 },
 	{ "Zoom",     NULL,       NULL,       1 << 3,       0,           -1 },
 	{ "Atom",     NULL,       NULL,       1,            0,           -1 },
 };
@@ -95,13 +94,15 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray4, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *termatom[]  = { "atom", NULL };
+static const char *atomcmd[]  = { "atom", NULL };
+static const char *firefoxcmd[]  = { "firefox", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_a, spawn,          {.v = termatom } },
+	{ MODKEY,                       XK_a,       spawn,          {.v = atomcmd } },
+	{ MODKEY|ShiftMask,             XK_a,       spawn,          {.v = firefoxcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_n,      focusstack,     {.i = +1 } },
@@ -117,6 +118,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY|ShiftMask,             XK_s,      setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[7]} },
 	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {.v = &layouts[11]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
