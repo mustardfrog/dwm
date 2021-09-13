@@ -1,57 +1,55 @@
 --- dwm.c
 +++ dwm.c
-@@ -119,6 +119,10 @@ struct Monitor {
- 	int by;               /* bar geometry */
- 	int mx, my, mw, mh;   /* screen size */
- 	int wx, wy, ww, wh;   /* window area  */
-+	int gappih;           /* horizontal gap between windows */
-+	int gappiv;           /* vertical gap between windows */
-+	int gappoh;           /* horizontal outer gaps */
-+	int gappov;           /* vertical outer gaps */
- 	unsigned int seltags;
- 	unsigned int sellt;
- 	unsigned int tagset[2];
-@@ -637,6 +640,10 @@ createmon(void)
- 	m->nmaster = nmaster;
- 	m->showbar = showbar;
- 	m->topbar = topbar;
-+	m->gappih = gappih;
-+	m->gappiv = gappiv;
-+	m->gappoh = gappoh;
-+	m->gappov = gappov;
- 	m->lt[0] = &layouts[0];
- 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
- 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
-@@ -1669,32 +1676,6 @@ tagmon(const Arg *arg)
- 	sendmon(selmon->sel, dirtomon(arg->i));
+@@ -112,27 +113,6 @@ typedef struct {
+ 	void (*arrange)(Monitor *);
+ } Layout;
+ 
+-struct Monitor {
+-	char ltsymbol[16];
+-	float mfact;
+-	int nmaster;
+-	int num;
+-	int by;               /* bar geometry */
+-	int mx, my, mw, mh;   /* screen size */
+-	int wx, wy, ww, wh;   /* window area  */
+-	unsigned int seltags;
+-	unsigned int sellt;
+-	unsigned int tagset[2];
+-	int showbar;
+-	int topbar;
+-	Client *clients;
+-	Client *sel;
+-	Client *stack;
+-	Monitor *next;
+-	Window barwin;
+-	const Layout *lt[2];
+-};
+-
+ typedef struct {
+ 	const char *class;
+ 	const char *instance;
+@@ -205,8 +185,10 @@ static void setmfact(const Arg *arg);
+ static void setup(void);
+ static void seturgent(Client *c, int urg);
+ static void showhide(Client *c);
++static void showtagpreview(int tag);
+ static void sigchld(int unused);
+ static void spawn(const Arg *arg);
++static void switchtag(void);
+ static void tag(const Arg *arg);
+ static void tagmon(const Arg *arg);
+ static void tile(Monitor *);
+@@ -535,8 +547,13 @@ cleanupmon(Monitor *mon)
+ 		for (m = mons; m && m->next != mon; m = m->next);
+ 		m->next = mon->next;
+ 	}
++	for (size_t i = 0; i < LENGTH(tags); i++)
++		if (mon->tagmap[i])
++			XFreePixmap(dpy, mon->tagmap[i]);
+ 	XUnmapWindow(dpy, mon->barwin);
+ 	XDestroyWindow(dpy, mon->barwin);
++	XUnmapWindow(dpy, mon->tagwin);
++	XDestroyWindow(dpy, mon->tagwin);
+ 	free(mon);
  }
  
--void
--tile(Monitor *m)
--{
--	unsigned int i, n, h, mw, my, ty;
--	Client *c;
--
--	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
--	if (n == 0)
--		return;
--
--	if (n > m->nmaster)
--		mw = m->nmaster ? m->ww * m->mfact : 0;
--	else
--		mw = m->ww;
--	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
--		if (i < m->nmaster) {
--			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
--			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
--			my += HEIGHT(c);
--		} else {
--			h = (m->wh - ty) / (n - i);
--			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
--			ty += HEIGHT(c);
--		}
--}
--
- void
- togglebar(const Arg *arg)
- {
