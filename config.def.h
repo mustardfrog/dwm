@@ -19,13 +19,13 @@ static const int showtab			= showtab_auto;        /* Default tab bar show mode *
 static const int toptab				= True;               /* False means bottom tab bar */
 
 
-static const char *fonts[]          = {  "Ubuntu:size=10","monospace:size=10", "fontawesome: size=14", "Oxygen: size=10""Inconsolata: size=10", "SpaceMono:size=10", "Mukta:size=14"};
+static const char *fonts[]          = {  "Inconsolata: size=10","Ubuntu:size=10","monospace:size=10", "fontawesome: size=14", "Oxygen: size=10", "SpaceMono:size=10", "Mukta:size=14"};
 static const char dmenufont[]       = "Ubuntu:size=10";
-static const char col_gray1[]       = "#000020";
+static const char col_gray1[]       = "#0f111b";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#990a0a";
+static const char col_cyan[]        = "#686f9a";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray4, col_gray1, col_gray2 },
