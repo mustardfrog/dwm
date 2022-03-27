@@ -19,13 +19,13 @@ static const int showtab			= showtab_auto;        /* Default tab bar show mode *
 static const int toptab				= True;               /* False means bottom tab bar */
 
 
-static const char *fonts[]          = {  "JetBrains Mono: size=10","Ubuntu:size=10","monospace:size=10", "fontawesome: size=14" };
+static const char *fonts[]          = {  "Monospace: size=10","Ubuntu:size=10", "fontawesome: size=14" };
 static const char dmenufont[]       = "Ubuntu: size=10";
 static const char col_gray1[]       = "#0f111b";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#00449e";
+static const char col_cyan[]        = "#000000";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray4, col_gray1, col_gray2 },
@@ -96,8 +96,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray4, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *atomcmd[]  = { "atom", NULL };
-static const char *firefoxcmd[]  = { "firefox", NULL };
-static const char *conkycmd[]  = { "conky", NULL };
+static const char *firefoxcmd[]  = { "librewolf", NULL };
 static const char *qutecmd[]  = { "qutebrowser", NULL };
 #include "shiftview.c"
 
@@ -107,10 +106,9 @@ static Key keys[] = {
 	{ MODKEY4,                       XK_Return, spawn,          {.v = termcmd } },
 	{ ControlMask|MODKEY4,           XK_a,       spawn,          {.v = atomcmd } },
 	{ ControlMask|MODKEY4,           XK_f,       spawn,          {.v = firefoxcmd } },
-	//{ MODKEY4,                       XK_c,       spawn,          {.v = conkycmd } },
 	{ ControlMask|MODKEY4,           XK_s,       spawn,          {.v = qutecmd } },
 	{ MODKEY4,                       XK_b,      togglebar,      {0} },
-	{ MODKEY4,                       XK_w,      tabmode,        {-1} },
+	{ MODKEY4|ShiftMask,             XK_w,      tabmode,        {-1} },
 	{ MODKEY4,                       XK_c,      focusstack,     {.i = +1 } },
 	{ MODKEY4|ShiftMask,             XK_c,      focusstack,     {.i = -1 } },
 	{ MODKEY4|ShiftMask,             XK_i,      incnmaster,     {.i = +1 } },
