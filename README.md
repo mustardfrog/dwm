@@ -11,3 +11,8 @@ Installation
 ------------
     make clean install
 
+#### Patches applied
+- Tag preview 
+- Per-tag
+- Tab
+- Vanity gaps and many others
