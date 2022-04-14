@@ -44,10 +44,12 @@ static const Rule rules[] = {
 	 //xprop(1):
         //WM_CLASS(STRING) = instance, class
         //WM_NAME(STRING) = title
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            0,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "Zoom",     NULL,       NULL,       1 << 3,       0,           -1 },
+	/* class      instance    title         tags mask     isfloating   monitor */
+	{ "Gimp",     NULL,       NULL,             0,            0,           -1 },
+	{ "firefox",  NULL,       "Mozilla Firefox",1 << 2,       0,           -1 },
+	{ "librewolf",NULL,       "LibreWolf",      1 << 2,       0,           -1 },
+	{ "Zoom",     NULL,       NULL,             1 << 3,       0,           -1 },
+    { "Thunar",   NULL,       "archmonkey",     1 << 4,       0,           -1 },
 };
 
 /* layout(s) */
